@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="NSEconomy">
+    <output-path>$USER_HOME$/Desktop/Nighthawkz Survival/plugins</output-path>
+    <root id="archive" name="NSEconomy.jar">
+      <element id="module-output" name="NSEconomy" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>

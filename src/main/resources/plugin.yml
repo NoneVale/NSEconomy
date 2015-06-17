@@ -1,0 +1,23 @@
+name: NSEconomy
+version: 2.32.0b
+main: com.nighthawksurvival.economy.Economy
+authors: [EhhhQuestionMark]
+website: www.nighthawksurvival.com
+softdepend: [WorldGuard]
+commands:
+   balance:
+      usage: /balance
+      aliases: [bal, econ, economy, money]
+      permission: ns.econ
+   shop:
+      usage: /shop
+      description: opens the shop interface.
+permissions:
+   ns.econ:
+      description: normal commands.
+   ns.econ.admin:
+      description: All admin commands.
+      default: op
+   ns.econ.*:
+      description: All plugin commands.
+      default: op
