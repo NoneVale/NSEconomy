@@ -26,25 +26,6 @@ public class Economy extends JavaPlugin
     private static FileConfiguration configuration;
     private static boolean WG_ENABLED;
 
-    public void onEnable()
-    {
-        Shop.setup();
-        loadPlayers();
-        Bukkit.getLogger().info("Shops have been setup!");
-        PM.registerEvents(new Shop(), this);
-        this.getCommand("shop").setExecutor(new Shop());
-        this.getCommand("balance").setExecutor(new SetBal());
-        if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard"))
-        {
-            WG_ENABLED = true;
-            Bukkit.getLogger().info("[NSEconomy] WorldGuard is enabled!");
-        }
-    }
-
-    public void onDisable()
-    {
-    }
-
     public static boolean hasAccount(Player player)
     {
         return configuration.isSet(player.getUniqueId().toString() + ".balance");
@@ -61,20 +42,6 @@ public class Economy extends JavaPlugin
         savePlayers();
     }
 
-    public void loadPlayers()
-    {
-        config = new File("plugins/NSLib/players.yml");
-        if (!config.exists())
-        {
-            try {
-                config.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        configuration = YamlConfiguration.loadConfiguration(config);
-    }
-
     public static void savePlayers()
     {
         try {
@@ -87,5 +54,36 @@ public class Economy extends JavaPlugin
     public static boolean isWGEnabled()
     {
         return WG_ENABLED;
+    }
+
+    public void onEnable()
+    {
+        Shop.setup();
+        loadPlayers();
+        Bukkit.getLogger().info("Shops have been setup!");
+        PM.registerEvents(new Shop(), this);
+        this.getCommand("shop").setExecutor(new Shop());
+        if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard"))
+        {
+            WG_ENABLED = true;
+            Bukkit.getLogger().info("[NSEconomy] WorldGuard is enabled!");
+        }
+    }
+
+    public void onDisable()
+    {
+    }
+
+    public void loadPlayers()
+    {
+        config = new File("plugins/NSLib/players.yml");
+        if (!config.exists()) {
+            try {
+                config.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        configuration = YamlConfiguration.loadConfiguration(config);
     }
 }

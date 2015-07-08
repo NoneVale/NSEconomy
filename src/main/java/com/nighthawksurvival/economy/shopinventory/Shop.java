@@ -2,11 +2,9 @@ package com.nighthawksurvival.economy.shopinventory;
 
 import com.nighthawksurvival.economy.Economy;
 import com.nighthawksurvival.economy.manager.ShopManager;
-import static com.nighthawksurvival.util.Item.*;
-
-import com.nighthawksurvival.economy.util.WGUtil;
 import com.nighthawksurvival.util.Item;
 import com.nighthawksurvival.util.MSG;
+import com.nighthawksurvival.util.WGUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,12 +17,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.io.File;
+
+import static com.nighthawksurvival.util.Item.*;
 
 /**
  * ************
@@ -486,31 +485,6 @@ public class Shop implements Listener, CommandExecutor
 
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-    {
-        if (command.getName().equalsIgnoreCase("shop"))
-        {
-            Player player = (Player) sender;
-            if (WGUtil.canBuy(player))
-            {
-                if (args.length == 0)
-                {
-                    player.openInventory(mainpage);
-                    player.sendMessage(MSG.economyMSG() + "Shop interface has been opened");
-                }
-            }
-            if (args.length == 1)
-            {
-                if (args[0].equalsIgnoreCase("reset"))
-                {
-                    setup();
-                    player.sendMessage(MSG.economyMSG() + "The Shops were reset!");
-                }
-            }
-        }
-        return true;
-    }
-
     public static void setup()
     {
         setFile();
@@ -525,6 +499,37 @@ public class Shop implements Listener, CommandExecutor
         setRedstone();
         setTransportation();
         setMiscellaneous();
+    }
+
+    public static void setFile() {
+        try {
+            file = new File("plugins/NSLib/shops.yml");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            fileConfiguration = YamlConfiguration.loadConfiguration(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("shop")) {
+            Player player = (Player) sender;
+            if (WGUtil.canBuy(player)) {
+                if (args.length == 0) {
+                    player.openInventory(mainpage);
+                    player.sendMessage(MSG.economyMSG() + "Shop interface has been opened");
+                }
+            }
+            if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("reset")) {
+                    setup();
+                    player.sendMessage(MSG.economyMSG() + "The Shops were reset!");
+                }
+            }
+        }
+        return true;
     }
 
     @EventHandler
@@ -700,23 +705,6 @@ public class Shop implements Listener, CommandExecutor
                     event.setCancelled(true);
                 }
             }
-        }
-    }
-
-    public static void setFile()
-    {
-        try
-        {
-            file = new File("plugins/NSLib/shops.yml");
-            if (!file.exists())
-            {
-                file.createNewFile();
-            }
-            fileConfiguration = YamlConfiguration.loadConfiguration(file);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
         }
     }
 }
